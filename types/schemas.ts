@@ -40,3 +40,5 @@ export const updateCarSchema = z.object({
     message: "Description must be at most 1000 characters",
   }).optional(),
 })
+
+export type TimeRange = `["${string}","${string}")`
