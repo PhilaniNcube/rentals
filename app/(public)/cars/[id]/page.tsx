@@ -10,7 +10,7 @@ const CarPage = async ({params:{id}, searchParams}:{params:{id:number}, searchPa
   const today = searchParams.date || new Date();
   const formatedDate = format(today, "yyyy-MM-dd");
 
-  const nextWeek = addDays(formatedDate, 30);
+  const nextWeek = addDays(formatedDate, 1);
 
   const nextWeekFormated = format(nextWeek, "yyyy-MM-dd");
 
@@ -27,8 +27,10 @@ const CarPage = async ({params:{id}, searchParams}:{params:{id:number}, searchPa
 
   const typedRentals = rentals.map((rental) => ({
 			...rental,
-			booking_period: rental.booking_period as string, // Type assertion here
+			start_time: rental.start_time , // Type assertion here
+			end_time: rental.end_time , // Type assertion here
 		}));
+
 
 
   if (error) {

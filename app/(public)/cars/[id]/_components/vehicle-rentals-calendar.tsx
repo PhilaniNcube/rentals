@@ -14,7 +14,7 @@ import TimeSlot from "./time-slot";
 import type { CarWithImages } from "@/lib/fetchers/cars";
 import Link from "next/link";
 
-type RentalInfo = { car_id: number; booking_period: string }[];
+type RentalInfo = { car_id: number; start_time: number, end_time:number, duration: number }[];
 
 const VehicleRentalsCalendar = ({
 	car,
@@ -48,12 +48,7 @@ const VehicleRentalsCalendar = ({
 		setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
 	}
 
-  // parse the start time and end time of the rental from the booking_period which has the following string format ["2022-02-01 10:00:00 - 2022-02-01 11:00:00")
 
-  const startTimes = rentals.map((rental) => {
-    const [start] = rental.booking_period.split(",");
-    console.log(start);
-  });
 
 	const colStartClasses = [
 		"",
@@ -64,6 +59,11 @@ const VehicleRentalsCalendar = ({
 		"col-start-6",
 		"col-start-7",
 	];
+
+  //parse the start time and end time of the rental from the booking_period which has the following string format ["2022-02-01 10:00:00:00+00", "2022-02-01 11:00:00:00+00")
+
+
+  console.log({ rentals});
 
 	const time = [
 		{
@@ -219,31 +219,13 @@ const VehicleRentalsCalendar = ({
 					</div>
 					<ScrollArea className="h-[200px] w-full">
 						<div className="flex flex-col gap-3 text-sm ">
-							{time.map((item) => {
+							{time.map((item, idx) => {
 
-                const formatedSelectedDay = `${format(selectedDay, "yyyy-MM-dd")} ${item.hour}`;
+                //find the index of the time slot in the array that matches the slot with the same start time as the rental
+                // const index = startTimes.findIndex((start) => start === item.hour);
 
+                const formatedSelectedDay = `["${format(selectedDay, "yyyy-MM-dd")} ${item.hour}` || `,"${format(selectedDay, "yyyy-MM-dd")} ${item.hour}`;
 
-
-                // check if formatedSelectedDay is in the rentals array
-
-                // if it is, then the time slot is booked
-                const isBooked = rentals.some((rental) => {
-                 return rental.booking_period.includes(formatedSelectedDay);
-                });
-
-                console.log(isBooked, formatedSelectedDay);
-
-                if (isBooked) {
-                  return (
-                    <div
-                      key={item.hour}
-                      className="px-4 py-3 text-center text-gray-900 bg-gray-200 cursor-not-allowed"
-                    >
-                      <p className="line-through">{item.hour}</p>
-                    </div>
-                  );
-                }
 
 
                 return <TimeSlot item={item} car={car} date={selectedDay} key={item.hour} />;

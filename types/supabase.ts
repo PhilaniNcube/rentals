@@ -134,7 +134,7 @@ export type Database = {
       }
       rentals: {
         Row: {
-          booking_period: string
+          booking_period: unknown
           car_id: number
           created_at: string
           duration: number
@@ -147,7 +147,7 @@ export type Database = {
           total_price: number
         }
         Insert: {
-          booking_period: string
+          booking_period: unknown
           car_id: number
           created_at?: string
           duration?: number
@@ -160,7 +160,7 @@ export type Database = {
           total_price: number
         }
         Update: {
-          booking_period?: string
+          booking_period?: unknown
           car_id?: number
           created_at?: string
           duration?: number
@@ -536,8 +536,11 @@ export type Database = {
           carid: number
         }
         Returns: {
+          start_time: number
+          end_time: number
           booking_period: unknown
           car_id: number
+          duration: number
         }[]
       }
       is_admin: {
