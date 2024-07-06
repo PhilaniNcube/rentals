@@ -42,3 +42,10 @@ export const updateCarSchema = z.object({
 })
 
 export type TimeRange = `["${string}","${string}")`
+
+
+export const createBookingSchema = z.object({
+  car_id: z.number(),
+  booking_period: z.string(),
+  total_price: z.coerce.number(),
+});

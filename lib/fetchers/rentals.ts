@@ -25,11 +25,16 @@ export async function getWeeklyRentalTimes(booking_range: string, carId: number)
 			carid: carId,
 		});
 
-  console.log({data, error});
+    console.log({data, error })
+
+  if(error) {
+    return {
+      rentals: []
+    }
+  }
 
   return {
-    rentals: data,
-    error: error,
+    rentals: data
   }
 
 }
