@@ -23,6 +23,8 @@ export async function getCars() {
     image_url
     )`);
 
+
+
   if (error) {
     return {
       error: {

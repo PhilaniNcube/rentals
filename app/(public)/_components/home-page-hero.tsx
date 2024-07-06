@@ -18,7 +18,9 @@ const HomePageHero = () => {
 									Rent A Luxury Car For Your Special Occasion
 								</h1>{" "}
 								<p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  We offer a wide range of luxury cars for rent. Whether you're looking for a car for a special occasion or just want to drive in style.
+									We offer a wide range of luxury cars for rent. Whether you're
+									looking for a car for a special occasion or just want to drive
+									in style.
 								</p>
 							</div>
 							<div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -38,6 +40,15 @@ const HomePageHero = () => {
 								</Link>
 							</div>
 						</div>
+					</div>
+					<div className="flex flex-col items-center justify-center w-full py-12 text-center lg:py-16">
+						<p className="text-center">Our Promise</p>
+						<h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+							Why Choose Service Car Rentals?
+						</h2>
+						<p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+						We offer a full service luxury car rentals. Our cars are always provided with a driver to take to your destination safely and in style. Whether you're looking for a car for a special occasion or just want to drive in style.
+						</p>
 					</div>
 				</div>
 			</section>
