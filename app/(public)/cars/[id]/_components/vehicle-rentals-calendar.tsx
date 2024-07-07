@@ -314,11 +314,7 @@ const VehicleRentalsCalendar = ({
 						<div className="flex flex-col gap-3 text-sm ">
 							{time.map((item, idx) => {
 
-
-
-
                 const isBooked = bookedTimesArray.includes(item.count);
-
 
                 if (isBooked) {
                   return (
