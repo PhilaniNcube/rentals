@@ -14,6 +14,8 @@ import TimeSlot from "./time-slot";
 import type { CarWithImages } from "@/lib/fetchers/cars";
 import Link from "next/link";
 
+
+
 type RentalInfo = { car_id: number; start_time: number, end_time:number, duration: number }[];
 
 const VehicleRentalsCalendar = ({
@@ -24,6 +26,135 @@ const VehicleRentalsCalendar = ({
 	const searchParams = useSearchParams();
 
   const searchDate = searchParams.get("date") || new Date();
+
+  	const time = [
+				{
+					hour: "10:00",
+					count: 10,
+				},
+				{
+					hour: "11:00",
+					count: 11,
+				},
+				{
+					hour: "12:00",
+					count: 12,
+					index: 0,
+				},
+				{
+					hour: "13:00",
+					count: 13,
+					index: 1,
+				},
+				{
+					hour: "14:00",
+					count: 14,
+					index: 2,
+				},
+				{
+					hour: "15:00",
+					count: 15,
+					index: 3,
+				},
+				{
+					hour: "16:00",
+					count: 16,
+					index: 4,
+				},
+				{
+					hour: "17:00",
+					count: 17,
+					index: 5,
+				},
+				{
+					hour: "18:00",
+					count: 18,
+					index: 6,
+				},
+				{
+					hour: "19:00",
+					count: 19,
+					index: 7,
+				},
+				{
+					hour: "20:00",
+					count: 20,
+					index: 8,
+				},
+				{
+					hour: "21:00",
+					count: 21,
+					index: 9,
+				},
+				{
+					hour: "22:00",
+					count: 22,
+					index: 10,
+				},
+				{
+					hour: "23:00",
+					count: 23,
+					index: 11,
+				},
+			];
+
+  const spans = rentals.map(rental => {
+    return {
+      start: rental.start_time,
+      span: rental.duration / 60
+    }
+  });
+
+   // compare the spans array with and return the arrays that are not equal to the spans array
+   const bookedArray = time.map((item) => {
+    const isBooked = spans.find(span => span.start === item.count);
+
+   if(isBooked === undefined) {
+     return;
+   }
+
+    return isBooked;
+  })
+
+   //filter the bookedArray to remove the undefined values
+  const booked = bookedArray.filter((item) => item !== undefined);
+  console.log({booked});
+  let bookedTimes = [];
+
+  //each item in the booked array corresponsed to a rental but each rental can span multiple hours so we to get
+  bookedTimes = booked.map((item) => {
+    const times = [];
+
+    if(item.span === 1) {
+      return times.push(item.start);
+    }
+
+    for(let i = 0; i < item.span; i++) {
+      times.push(item.start + i);
+    }
+
+    return times;
+
+
+  })
+
+
+  //flatten the bookedTimes array to get a single array of all the booked times
+  const bookedTimesArray = bookedTimes.flat();
+
+  console.log({bookedTimesArray});
+
+
+
+
+
+
+
+
+
+
+
+
 
 	const today = startOfToday();
 	const [selectedDay, setselectedDay] = useState(today);
@@ -63,52 +194,14 @@ const VehicleRentalsCalendar = ({
   //parse the start time and end time of the rental from the booking_period which has the following string format ["2022-02-01 10:00:00:00+00", "2022-02-01 11:00:00:00+00")
 
 
-  console.log({ rentals});
 
-	const time = [
-		{
-			hour: "10:00",
-		},
-		{
-			hour: "11:00",
-		},
-		{
-			hour: "12:00",
-		},
-		{
-			hour: "13:00",
-		},
-		{
-			hour: "14:00",
-		},
-		{
-			hour: "15:00",
-		},
-		{
-			hour: "16:00",
-		},
-		{
-			hour: "17:00",
-		},
-		{
-			hour: "18:00",
-		},
-		{
-			hour: "19:00",
-		},
-		{
-			hour: "20:00",
-		},
-		{
-			hour: "21:00",
-		},
-		{
-			hour: "22:00",
-		},
-		{
-			hour: "23:00",
-		},
-	];
+
+
+
+
+
+
+
 
 	return (
 		<div className="container flex w-full gap-8 p-6 sm:p-8">
@@ -221,8 +314,24 @@ const VehicleRentalsCalendar = ({
 						<div className="flex flex-col gap-3 text-sm ">
 							{time.map((item, idx) => {
 
-                //find the index of the time slot in the array that matches the slot with the same start time as the rental
-                // const index = startTimes.findIndex((start) => start === item.hour);
+
+
+
+                const isBooked = bookedTimesArray.includes(item.count);
+
+
+                if (isBooked) {
+                  return (
+                    <Button
+                      key={item.hour}
+                      disabled
+                      className="text-muted-foreground"
+                      variant="ghost"
+                    >
+                      {item.hour}
+                    </Button>
+                  );
+                }
 
                 const formatedSelectedDay = `["${format(selectedDay, "yyyy-MM-dd")} ${item.hour}` || `,"${format(selectedDay, "yyyy-MM-dd")} ${item.hour}`;
 
