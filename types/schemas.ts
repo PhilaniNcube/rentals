@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { date, z } from "zod";
 
 export const signUpSchema = z.object({
   first_name: z.string(),
@@ -46,6 +46,7 @@ export type TimeRange = `["${string}","${string}")`
 
 export const createBookingSchema = z.object({
   car_id: z.number(),
-  booking_period: z.string(),
-  total_price: z.coerce.number(),
+  start_time: z.string(),
+  end_time: z.string(),
+  date: z.string(),
 });

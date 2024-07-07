@@ -148,18 +148,6 @@ const VehicleRentalsCalendar = ({
 
   console.log({bookedTimesArray});
 
-
-
-
-
-
-
-
-
-
-
-
-
 	const today = startOfToday();
 	const [selectedDay, setselectedDay] = useState(today);
 	const [currentMonth, setCurrentMonth] = useState(
@@ -194,18 +182,6 @@ const VehicleRentalsCalendar = ({
 		"col-start-6",
 		"col-start-7",
 	];
-
-  //parse the start time and end time of the rental from the booking_period which has the following string format ["2022-02-01 10:00:00:00+00", "2022-02-01 11:00:00:00+00")
-
-
-
-
-
-
-
-
-
-
 
 	return (
 		<div className="container flex w-full gap-8 p-6 sm:p-8">
@@ -337,7 +313,15 @@ const VehicleRentalsCalendar = ({
 
 
 
-                return <TimeSlot item={item} car={car} date={selectedDay} key={item.hour} />;
+                return (
+																	<TimeSlot
+																		item={item}
+																		car={car}
+																		date={selectedDay}
+																		key={item.hour}
+																		bookedTimes={bookedTimesArray}
+																	/>
+																);
               })}
 						</div>
 					</ScrollArea>
