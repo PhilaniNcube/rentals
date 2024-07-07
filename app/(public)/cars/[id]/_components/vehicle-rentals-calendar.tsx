@@ -118,14 +118,14 @@ const VehicleRentalsCalendar = ({
 
    //filter the bookedArray to remove the undefined values
   const booked = bookedArray.filter((item) => item !== undefined);
-  console.log({booked});
+
   let bookedTimes = [];
 
   //each item in the booked array corresponsed to a rental but each rental can span multiple hours so we to get
   bookedTimes = booked.map((item) => {
     const times = [];
 
-    if(item.span === 1) {
+    if(item !== undefined && item.span === 1) {
       return times.push(item.start);
     }
 
