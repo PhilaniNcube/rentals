@@ -125,7 +125,11 @@ const VehicleRentalsCalendar = ({
   bookedTimes = booked.map((item) => {
     const times = [];
 
-    if(item !== undefined && item.span === 1) {
+    if(item === undefined) {
+      return;
+    }
+
+    if(item.span === 1) {
       return times.push(item.start);
     }
 
