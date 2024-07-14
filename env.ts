@@ -12,6 +12,8 @@ const envVariables = z.object({
 	NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: z.string(),
 	STRIPE_SECRET_KEY: z.string(),
 	NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
+	STRIPE_ENPOINT_SECRET: z.string(),
+	WEBSITE_URL: z.string(),
 });
 
 envVariables.parse(process.env);

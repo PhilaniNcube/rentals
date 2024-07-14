@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import stripe from "stripe";
 
+
 const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY)
 
 export async function bookingAction (formData:FormData) {
@@ -57,7 +58,7 @@ if (!validatedFields.success ) {
     car_id: Number(validatedFields.data.car_id),
     total_price: total_price,
     profile_id: user.id,
-  }]).single();
+  }]).select('*').single();
 
   if (error) {
     console.log("Rental", error)
@@ -67,23 +68,37 @@ if (!validatedFields.success ) {
 
 
   const session = await stripeClient.checkout.sessions.create({
-    line_items: [
-      {
-        price_data: {
-          currency: 'gbp',
-          product_data: {
-            name: 'Car Rental',
-          },
-          unit_amount: total_price * 100,
-        },
-        quantity: 1,
-      }
-    ],
-    mode: 'payment',
-    payment_method_types: ['card'],
-    success_url: 'http://localhost:3000/rentals/success',
-    cancel_url: 'http://localhost:3000/rentals/error',
-  })
+			metadata: {
+				rental_id: data.id.toString(),
+				profile_id: user.id,
+				booking_period: booking_range,
+				car_id: validatedFields.data.car_id.toString(),
+			},
+			line_items: [
+				{
+					price_data: {
+						currency: "gbp",
+
+						product_data: {
+							name: `${data.id}`,
+							metadata: {
+								id: data.id.toString(),
+								profile_id: user.id,
+								booking_period: booking_range,
+								car_id: validatedFields.data.car_id.toString(),
+							},
+						},
+						unit_amount: total_price * 100,
+					},
+					quantity: 1,
+				},
+			],
+			mode: "payment",
+			payment_method_types: ["card"],
+			success_url: `https://${process.env.WEBSITE_URL}/rentals/success?rental_id=${data.id}`,
+			cancel_url:
+				`https://${process.env.WEBSITE_URL}/rentals/error?rental_id=${data.id}`,
+		});
 
   redirect(`${session.url}`)
 
