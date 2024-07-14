@@ -1,9 +1,9 @@
 import { createClient } from "@/utils/supabase/service";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import stripe from "stripe";
+import Stripe from "stripe";
 
-const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY);
+const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(req: Request, res: Response) {
 
@@ -18,15 +18,20 @@ export async function POST(req: Request, res: Response) {
   const stripeRes = await req.json();
 
 
+  const payload = req.body;
+
+  let stripeEvent:Stripe.Event;
+
 
   try {
-		const	verifiedEvent = stripeClient.webhooks.constructEvent(
-				stripeRes,
-				stripe_signature,
-				process.env.STRIPE_ENPOINT_SECRET,
-			);
+    const body = await res.json();
+		const verifiedEvent = stripeClient.webhooks.constructEvent(
+			JSON.stringify(body),
+			stripe_signature,
+			process.env.STRIPE_ENPOINT_SECRET,
+		);
 
-      console.log({verifiedEvent});
+
 
 
 		} catch (error: unknown) {
