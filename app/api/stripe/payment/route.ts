@@ -1,11 +1,16 @@
 import { createClient } from "@/utils/supabase/service";
 import type { StripeElementChangeEvent } from "@stripe/stripe-js";
+import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import stripe from "stripe";
 
 const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(req: Request, res: Response) {
+
+  const reqHeaders = headers();
+
+  console.log({reqHeaders});
 
   const supabase = createClient();
 
