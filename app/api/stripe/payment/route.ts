@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/service";
+import { NextApiRequest } from "next";
 import { headers } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -12,27 +13,17 @@ export async function POST(req: Request, res: Response) {
 
   const stripe_signature = reqHeaders.get('stripe-signature') as string;
 
-  //verify the stripe signature
-
   const supabase = createClient();
   const stripeRes = await req.json();
 
 
-  const payload = req.body;
-
-  let stripeEvent:Stripe.Event;
-
-
   try {
-    const body = await res.json();
+      const body = await req.text();
 		const verifiedEvent = stripeClient.webhooks.constructEvent(
 			JSON.stringify(body),
 			stripe_signature,
 			process.env.STRIPE_ENPOINT_SECRET,
 		);
-
-
-
 
 		} catch (error: unknown) {
 			// Explicitly type the error as unknown
@@ -80,3 +71,6 @@ export async function POST(req: Request, res: Response) {
 
 
 }
+
+
+
