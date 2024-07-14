@@ -360,7 +360,7 @@ const unavailableTimes = blocked.flat();
 																		car={car}
 																		date={selectedDay}
 																		key={item.hour}
-																		bookedTimes={bookedTimesArray}
+																		bookedTimes={unavailableTimes}
 																	/>
 																);
               })}

@@ -117,6 +117,12 @@ const TimeSlot = ({
 
 	const [pending, startTransition] = useTransition();
 
+  // check a booked time is in the array of booked times
+  const availableTimes = time_options.filter((time) => {
+    const isBooked = bookedTimes.includes(time.count);
+    return !isBooked;
+  });
+
 
 
 	const form = useForm<z.infer<typeof createBookingSchema>>({
@@ -197,7 +203,7 @@ const TimeSlot = ({
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											{time_options.map((time) => {
+											{availableTimes.map((time) => {
 												const isBooked = bookedTimes.includes(time.count);
 												if (isBooked) {
 													return (
@@ -239,7 +245,7 @@ const TimeSlot = ({
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											{time_options.map((time) => {
+											{availableTimes.map((time) => {
 												//return an array of booked times + 1
 												const endTimes = bookedTimes.map((time) => {
 													if (time === undefined) {

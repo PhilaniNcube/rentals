@@ -95,9 +95,9 @@ if (!validatedFields.success ) {
 			],
 			mode: "payment",
 			payment_method_types: ["card"],
-			success_url: `https://${process.env.WEBSITE_URL}/rentals/success?rental_id=${data.id}`,
+			success_url: `${process.env.WEBSITE_URL}/rentals/success?rental_id=${data.id}`,
 			cancel_url:
-				`https://${process.env.WEBSITE_URL}/rentals/error?rental_id=${data.id}`,
+				`${process.env.WEBSITE_URL}/rentals/error?rental_id=${data.id}`,
 		});
 
   redirect(`${session.url}`)
