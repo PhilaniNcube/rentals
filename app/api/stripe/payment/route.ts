@@ -1,12 +1,16 @@
 import { createClient } from "@/utils/supabase/service";
-import { NextApiRequest } from "next";
 import { headers } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+
+type METADATA = {
+	rental_id: string;
+	payment_status: string;
+};
 
 const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: NextRequest, res: Response) {
 
   const reqHeaders = headers();
 
@@ -15,12 +19,12 @@ export async function POST(req: Request, res: Response) {
 
   const supabase = createClient();
   const stripeRes = await req.json();
-
+  let event: Stripe.Event;
 
   try {
       const body = await req.text();
-		const verifiedEvent = stripeClient.webhooks.constructEvent(
-			JSON.stringify(body),
+		event = stripeClient.webhooks.constructEvent(
+			body,
 			stripe_signature,
 			process.env.STRIPE_ENPOINT_SECRET,
 		);
@@ -45,19 +49,28 @@ export async function POST(req: Request, res: Response) {
 
 
 
-  const event = stripeRes;
+
 
   const eventType = event.type;
 
 		if(eventType === "checkout.session.completed") {
+      const stripeData = event.data.object;
+      const metadata = stripeData.metadata as METADATA;
 
-		  const rental_id = Number(event.data.object.metadata.rental_id);
+		  const rental_id = Number(metadata.rental_id);
 		  const payment_status = event.data.object.payment_status;
 
-		  const {data, error} = await supabase.from('rentals').update({
-		    status: payment_status === 'paid' ? 'completed' : 'pending',
-		    payment_id: event.data.object.payment_intent,
-		  }).eq('id', rental_id).single();
+		  const { data, error } = await supabase
+					.from("rentals")
+					.update({
+						status: payment_status === "paid" ? "completed" : "pending",
+						payment_id:
+							typeof stripeData.payment_intent === "string"
+								? stripeData.payment_intent
+								: stripeData.payment_intent?.id || "",
+					})
+					.eq("id", rental_id)
+					.single();
 
 		  return NextResponse.json({ received: true, data: data, error: error });
 
