@@ -11,10 +11,45 @@ export async function POST(req: Request, res: Response) {
   const reqHeaders = headers();
 
   console.log({reqHeaders});
+// get the stripe signature from the headers
+  const stripe_signature = reqHeaders.get('stripe-signature') as string;
+
+  //verify the stripe signature
 
   const supabase = createClient();
-
   const stripeRes = await req.json();
+
+
+
+  try {
+		const	verifiedEvent = stripeClient.webhooks.constructEvent(
+				stripeRes,
+				stripe_signature,
+				process.env.STRIPE_ENPOINT_SECRET,
+			);
+
+      console.log({verifiedEvent});
+
+
+		} catch (error: unknown) {
+			// Explicitly type the error as unknown
+			// Log the error or handle it as needed
+			if (error instanceof Error) {
+				// Now TypeScript knows `error` is an Error object, and you can access its properties safely
+				console.error(`Error while verifying Stripe event: ${error.message}`);
+			} else {
+				// Handle cases where the caught object is not an Error instance
+				console.error("An unexpected error occurred", error);
+			}
+			return NextResponse.json(
+				{ error: "Invalid Stripe Signature" },
+				{ status: 400, statusText: "Invalid Stripe Signature" },
+			);
+		}
+
+
+
+
 
   const event = stripeRes;
 
