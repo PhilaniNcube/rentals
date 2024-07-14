@@ -117,7 +117,7 @@ const TimeSlot = ({
 
 	const [pending, startTransition] = useTransition();
 
-  console.log({item, date, })
+
 
 	const form = useForm<z.infer<typeof createBookingSchema>>({
 		resolver: zodResolver(createBookingSchema),
@@ -141,9 +141,6 @@ const TimeSlot = ({
   	const formAction = async (formData: FormData) => {
 				startTransition(async () => {
 					const result = await bookingAction(formData);
-
-					console.log(result);
-
 
 			});
     }
@@ -276,7 +273,7 @@ const TimeSlot = ({
 								</FormItem>
 							)}
 						/>
-						<Button type="submit" disabled={pending} className="mt-6 w-1/2">
+						<Button type="submit" disabled={pending} className="w-1/2 mt-6">
 							{pending ? "Booking..." : "Book"}
 						</Button>
 					</form>

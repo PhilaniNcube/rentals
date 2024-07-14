@@ -98,6 +98,45 @@ const VehicleRentalsCalendar = ({
 				},
 			];
 
+      // filter any booked times from time array in order to only display the available times
+const blocked: number[][] = [];
+
+const filteredTimes = time.filter((item) => {
+	const blockedTimes = [];
+
+	// Use a for...of loop to iterate over rentals
+	for (const rental of rentals) {
+		if (rental.start_time === item.count) {
+			blockedTimes.push(rental.start_time);
+			for (let i = 1; i < (rental.duration / 60)+1; i++) {
+				blockedTimes.push(rental.start_time + i);
+			}
+		}
+	}
+
+  if (blockedTimes.length === 0) {
+    return
+  }
+
+  blocked.push(blockedTimes);
+
+  // blocked is now an array of arrays of booked times but we want a single array
+
+
+
+
+
+	const isBooked = rentals.find((rental) => rental.start_time === item.count);
+
+});
+
+
+
+const unavailableTimes = blocked.flat();
+
+
+
+
   const spans = rentals.map(rental => {
     return {
       start: rental.start_time,
@@ -118,6 +157,8 @@ const VehicleRentalsCalendar = ({
 
    //filter the bookedArray to remove the undefined values
   const booked = bookedArray.filter((item) => item !== undefined);
+
+
 
   let bookedTimes = [];
 
@@ -146,7 +187,7 @@ const VehicleRentalsCalendar = ({
   //flatten the bookedTimes array to get a single array of all the booked times
   const bookedTimesArray = bookedTimes.flat();
 
-  console.log({bookedTimesArray});
+
 
 	const today = startOfToday();
 	const [selectedDay, setselectedDay] = useState(today);
@@ -294,7 +335,7 @@ const VehicleRentalsCalendar = ({
 						<div className="flex flex-col gap-3 text-sm ">
 							{time.map((item, idx) => {
 
-                const isBooked = bookedTimesArray.includes(item.count);
+                const isBooked = unavailableTimes.includes(item.count);
 
                 if (isBooked) {
                   return (
