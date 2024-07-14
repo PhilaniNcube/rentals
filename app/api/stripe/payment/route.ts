@@ -1,5 +1,4 @@
 import { createClient } from "@/utils/supabase/service";
-import type { StripeElementChangeEvent } from "@stripe/stripe-js";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import stripe from "stripe";
@@ -10,8 +9,7 @@ export async function POST(req: Request, res: Response) {
 
   const reqHeaders = headers();
 
-  console.log({reqHeaders});
-// get the stripe signature from the headers
+
   const stripe_signature = reqHeaders.get('stripe-signature') as string;
 
   //verify the stripe signature
