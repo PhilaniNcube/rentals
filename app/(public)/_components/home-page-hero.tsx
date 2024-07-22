@@ -25,14 +25,14 @@ const HomePageHero = () => {
 							</div>
 							<div className="flex flex-col gap-2 min-[400px]:flex-row">
 								<Link
-									href="#"
+									href="/cars"
 									className="inline-flex items-center justify-center h-10 px-8 text-sm font-medium transition-colors rounded-md shadow bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
 									prefetch={false}
 								>
 									Book Now
 								</Link>
 								<Link
-									href="#"
+									href="/services"
 									className="inline-flex items-center justify-center h-10 px-8 text-sm font-medium transition-colors border rounded-md shadow-sm border-input bg-background hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
 									prefetch={false}
 								>

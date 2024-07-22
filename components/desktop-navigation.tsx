@@ -18,11 +18,10 @@ const DesktopNavigation = async () => {
 				<div className="container w-full py-2">
 					<div className="flex items-center justify-between w-full">
 						<Link href="/" className="font-medium text-slate-800">
-							Car Service
+						Avaya Executive Travels
 						</Link>
 						<nav className="flex items-center space-x-4">
 							<Link href="/services">Services</Link>
-							<Link href="/about">About</Link>
 							<Link href="/contact">Contact</Link>
 							{user ? (
 								<>
