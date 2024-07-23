@@ -13,7 +13,7 @@ const MobileNavigation = async () => {
         const signedIn = !!user
 
 				return (
-					<header className="md:hidden">
+					<header className="md:hidden bg-slate-100">
 						<div className="container flex items-center justify-between px-4 py-2">
 							<Link className="font-semibold text-slate-800" href="/">
 								AET
