@@ -40,7 +40,7 @@ const MobileSlide = ({
             Contact
           </Link>
           <form action={logout}>
-          <Button className="" type="submit" action={logout} variant="destructive">
+          <Button className="" type="submit" variant="destructive">
             Logout <TrashIcon size="sm" className="ml-2" />
           </Button>
           </form>
