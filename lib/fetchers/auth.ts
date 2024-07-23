@@ -10,10 +10,10 @@ export const getCurrentUser = cache(async() => {
 })
 
 
-export async function isAdmin() {
+export const isAdmin = cache(async() =>  {
   const supabase = createClient();
 
   const { data: isAdmin } = await supabase.rpc("is_admin");
 
   return isAdmin;
-}
+})

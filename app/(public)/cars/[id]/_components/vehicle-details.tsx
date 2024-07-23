@@ -1,11 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
+
 import type { CarWithImages } from "@/lib/fetchers/cars";
 import { formatCurrency } from "@/lib/utils";
-import type { Database } from "@/types/supabase";
-import { AirVentIcon, AntennaIcon, BluetoothIcon, Calendar, CircuitBoard, FuelIcon, PlaneTakeoff, TicketIcon, TowerControlIcon } from "lucide-react";
+
+import {  Calendar, CogIcon } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+
 
 const VehicleDetails = ({car}:{car:CarWithImages}) => {
 
@@ -34,30 +33,21 @@ const VehicleDetails = ({car}:{car:CarWithImages}) => {
 									<p className="max-w-[600px] text-muted-foreground md:text-xl">
 									{car.description}
 									</p>
+                  <p className="">When you book this vehicle it will come with a chauffer to drive you around to give the best possible experience.  Our chauffers will be well dressed and make sure your travel needs will be caterd to.</p>
 								</div>
 								<div className="flex flex-col gap-2">
 									<div className="flex items-center gap-2">
 										<Calendar className="w-6 h-6 text-primary" />
-										<span>{car.year}</span>
+										<span>Model Year: {car.year}</span>
 									</div>
+
 									<div className="flex items-center gap-2">
-										<CircuitBoard className="w-6 h-6 text-primary" />
-										<span>{car.license_plate}</span>
-									</div>
-									<div className="flex items-center gap-2">
-										<AntennaIcon className="w-6 h-6 text-primary" />
+										<CogIcon className="w-6 h-6 text-primary" />
 										<span>Automatic Transmission</span>
 									</div>
 								</div>
 								<div className="flex flex-col gap-2 min-[400px]:flex-row">
-									<Link
-										href="#"
-										className="inline-flex items-center justify-center h-10 px-8 text-sm font-medium transition-colors rounded-md shadow bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-										prefetch={false}
-									>
-										Book Now
-									</Link>
-									<span className="text-lg font-semibold">{formatCurrency(car.rental_price_per_hour)}</span>
+									<span className="text-lg font-bold md:text-2xl">{formatCurrency(car.rental_price_per_hour)}</span>
 								</div>
 							</div>
 						</div>
